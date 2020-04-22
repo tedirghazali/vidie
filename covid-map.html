@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>covid-map</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    
+    <link rel="stylesheet" href="covid-map.css">
+</head>
+
+
+<body>
+    <div class="container">
+        <h3 class="text-center">world map</h3>
+        <div class="myMap">
+            <div class="map"></div>
+            <div class="areaLegend col-4"></div>
+            <div class="plotLegend"></div>
+        </div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://unpkg.com/@popperjs/core@2"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/raphael@2.3.0/raphael.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-mousewheel@3.1.13/jquery.mousewheel.min.js"></script>
+    <script src="asset/mapael/jquery.mapael.js"></script>
+    <script src="asset/mapael/maps/world_countries.min.js"></script>
+    <script src="dataset-t.js"></script>
+    <script>
+        $(".myMap").mapael({
+            map: {
+                name: "world_countries",
+                defaultArea: {
+                    attrs: {
+                        stroke: "#fff",
+                        "stroke-width": 1
+                    }
+                }
+            },
+            legend: {
+                area: {
+                    display: true,
+                    title: "Territory of total confirmed cases",
+                    slices: caseLegendAreaColors
+                },
+                plot: {
+                    display: true,
+                    title: "Region of total confirmed cases",
+                    slices: caseLegendPlotColors
+                }
+            },
+            plots: caseCityPlots,
+            areas: caseCountryAreas
+        });
+    </script>
+</body>
+
+</html>
