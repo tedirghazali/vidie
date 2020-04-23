@@ -1,28 +1,6 @@
 // COVID-19 Data
- var ob = procces()
-var caseLegendAreaColors = ob.case_legendAreaColors
-var caseCountryAreas = ob.case_countryAreas
-var caseLegendPlotColors = ob.case_legendPlotColors
-var caseCityPlots = ob.case_cityPlots
-var deathLegendAreaColors = ob.death_legendAreaColors
-var recoveryLegendPlotColors = ob.recovery_legendPlotColors
-async function data_list() {
-    const countriesResp = await fetch("https://corona.lmao.ninja/v2/countries");
-    const data = await countriesResp.json();
-
-    var tablee = []
-    $.each(data, function(index) {
-        tablee[index] = {}
-        tablee[index]["code"] = data[index].countryInfo.iso2;
-        tablee[index]["name"] = data[index].country;
-        tablee[index]["cases"] = data[index].cases;
-        tablee[index]["deaths"] = data[index].deaths;
-        tablee[index]["recoveries"] = data[index].recovered;
-    })
-    return tablee;
-};
-async function procces() {
-    const countryData = await data_list()
+function procces(data_list) {
+    const countryData = data_list
     var cityData = [
         { "code": "wuhan", "name": "Wuhan", "country": "CN", "cases": "50006", "deaths": "2547", "recoveries": "45733", "populations": "11081000", "latitude": "30.58333", "longitude": "114.26667" },
         { "code": "nycit", "name": "New York City", "country": "US", "cases": "43139", "deaths": "0", "recoveries": "0", "populations": "8398748", "latitude": "40.71278", "longitude": "-74.00597" },
@@ -43,7 +21,7 @@ async function procces() {
             return acc
         }, {})
     }
-   var  case_countryAreas = arr()
+   var case_countryAreas = arr()
    function arr() {
        var at = groupAreas(countryData, 'cases');
        return at
