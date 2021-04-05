@@ -1,0 +1,39 @@
+{
+  "name": "vidie",
+  "version": "0.0.1-development1",
+  "description": "Vidie is an UI library for Vue 3",
+  "main": "src/main.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc --noEmit && vite build",
+    "serve": "vite preview"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tedirghazali/vidie.git"
+  },
+  "keywords": [
+    "library",
+    "ui",
+    "front-end",
+    "vue",
+    "vue-3",
+    "components"
+  ],
+  "author": "Tedir Ghazali",
+  "license": "SEE LICENSE IN license.txt",
+  "bugs": {
+    "url": "https://github.com/tedirghazali/vidie/issues"
+  },
+  "homepage": "https://github.com/tedirghazali/vidie#readme",
+  "dependencies": {
+    "vue": "^3.0.5"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^1.2.1",
+    "@vue/compiler-sfc": "^3.0.5",
+    "typescript": "^4.1.3",
+    "vite": "^2.1.5",
+    "vue-tsc": "^0.0.15"
+  }
+}
