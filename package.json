@@ -2,7 +2,17 @@
   "name": "vidie",
   "version": "0.0.1-development1",
   "description": "Vidie is an UI library for Vue 3",
-  "main": "src/main.js",
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/vidie.umd.js",
+  "module": "./dist/vidie.es.js",
+  "exports": {
+    ".": {
+      "import": "./dist/vidie.es.js",
+      "require": "./dist/vidie.umd.js"
+    }
+  },
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
@@ -27,6 +37,8 @@
   },
   "homepage": "https://github.com/tedirghazali/vidie#readme",
   "dependencies": {
+    "alga-css": "^0.0.1-alpha3",
+    "alga-js": "^0.0.1-alpha8",
     "vue": "^3.0.5"
   },
   "devDependencies": {
