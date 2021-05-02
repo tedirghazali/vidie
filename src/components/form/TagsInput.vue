@@ -1,18 +1,23 @@
 <template>
-  <div class="tag:input" @click="focusInput">
-    <div v-for="(tag, index) in tags" :key="index" class="tag-group">
-      <span class="tag green" @dblclick="updateTag(tag, index)">{{ tag }}</span>
-      <span class="tag tag-delete secondary" @click="removeTag(index)"></span>
+  <div class="picker">
+    <div class="tag:input" @click="focusInput">
+      <div v-for="(tag, index) in tags" :key="index" class="tag-group">
+        <span class="tag" @dblclick="updateTag(tag, index)">{{ tag }}</span>
+        <span class="tag tag-delete" @click="removeTag(index)"></span>
+      </div>
+      <input type="text" v-model="tag" ref="tagInput" class="input-control" :placeholder="placeholderInput" @input="autoWidth(), createTag($event), openSuggestion(tag)" @keyup.enter="createTag($event)" @blur="closeSuggestion">
     </div>
-    <input type="text" v-model="tag" ref="tagInput" class="tag:input-control" list="tag-list" :placeholder="placeholder" @input="autoWidth($event), createTag($event)" @keyup.enter="createTag($event)">
-    <datalist id="tag-list">
-      <option v-for="(wt, i) in whiteTags" :key="i">{{ wt }}</option>
-    </datalist>
+    <transition name="tagsinput-transition" enter-active-class="animate fadeIn:animate" leave-active-class="animate fadeOut:animate">
+    <div class="picker-menu width-100 top:margin-0 top:border-0 padding-0 px:height-20 auto:overflow-y" v-show="suggestion">
+      <div v-for="wt in whiteTags" :key="wt" class="picker-item" style="--active-color: var(--alga-green)">{{ wt }}</div>
+    </div>
+    </transition>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref, toRef } from 'vue'
+import { $array as useArray } from 'alga-js'
 
 export default defineComponent({
   name: 'TagsInput',
@@ -44,35 +49,37 @@ export default defineComponent({
   },
   emits: ['update:modelValue'],
   setup(props, context) {
-    const tags = ref([])
-    const tag = ref('')
-    const whiteTags = ref([])
-    const tagInput = ref('')
-    
-    const { datalist, separator, whitelist, blacklist, placeholder } = toRef(props)
+    const tags = ref<any[]>([])
+    const tag = ref<string>('')
+    const whiteTags = ref<any[]>([])
+    const tagInput = ref<any>(null)
+    const suggestion = ref<boolean>(false)
+    const placeholderInput = ref<string>('')
     
     tags.value = props.datalist
-    whiteTags.value = props.whitelist
+    whiteTags.value = useArray.complement(props.whitelist, tags.value)
+    placeholderInput.value = props.placeholder
     
     const focusInput = () => {
       tagInput.value.focus()
     }
     
-    const autoWidth = (e) => {
-      const tagControlHidden = document.createElement('div')
-      tagControlHidden.classList.add('tag:input-control', 'hidden?tag:input-control')
+    const autoWidth = () => {
+      const tagHidden = document.createElement('div')
+      tagHidden.classList.add('tag:input-hidden')
 
-      const tagString = tag.value || e.target.getAttribute('placeholder') || ''
-      tagControlHidden.innerHTML = tagString.replace(/ /g, '&nbsp;').trim()
-      document.body.appendChild(tagControlHidden)
-
-      e.target.style.setProperty('width', Math.ceil(window.getComputedStyle(tagControlHidden).width.replace('px', '')) + 1 + 'px')
-      tagControlHidden.remove()
+      const tagString = tag.value || tagInput.value.getAttribute('placeholder') || ''
+      tagHidden.innerHTML = tagString.replace(/ /g, '&nbsp;').trim()
+      document.body.appendChild(tagHidden)
+      
+      const getTagWidth = Math.ceil(Number(window.getComputedStyle(tagHidden).width.replace('px', ''))) + 1
+      tagInput.value.style.setProperty('width', getTagWidth + 'px')
+      tagHidden.remove()
     }
     
-    const createTag = (e) => {
+    const createTag = (e: any) => {
       if(tag.value.includes(props.separator) || e.key === 'Enter') {
-        const filterTag = tag.value.replace(new RegExp(escapeRegex(props.separator), 'g'), '').trim()
+        const filterTag: string = tag.value.replace(new RegExp(escapeRegex(props.separator), 'g'), '').trim()
         if(!tags.value.includes(filterTag) && !props.blacklist.includes(filterTag)) {
           tags.value.push(filterTag)
           if(whiteTags.value.includes(filterTag)) {
@@ -82,24 +89,38 @@ export default defineComponent({
         emitTag(filterTag)
         tag.value = ''
       }
-      autoWidth(e)
+      autoWidth()
     }
     
-    const updateTag = (tag, index) => {
-      tag.value = tag
+    const updateTag = (editTag: string, index: any) => {
+      tag.value = editTag
       removeTag(index)
     }
     
-    const removeTag = (index) => {
+    const removeTag = (index: any) => {
       tags.value.splice(index, 1)
     }
       
-    const escapeRegex = (value) => {
+    const escapeRegex = (value: string) => {
       return value.replace(/[\-\[\]{}()*+?.,\\\^$|#\s]/g, '\\$&')
     }
       
-    const emitTag = (newTag) => {
+    const emitTag = (newTag: string) => {
       context.emit('update:modelValue', newTag)
+    }
+    
+    const openSuggestion = (tagArg: string) => {
+      //if(tag.value.length >= 3) {
+        setTimeout(() => {
+          suggestion.value = true
+        }, 5000)
+      //}
+    }
+    
+    const closeSuggestion = () => {
+      setTimeout(() => {
+        suggestion.value = false
+      }, 300)
     }
     
     return {
@@ -112,7 +133,10 @@ export default defineComponent({
       createTag,
       updateTag,
       removeTag,
-      placeholder
+      placeholderInput,
+      suggestion,
+      openSuggestion,
+      closeSuggestion
     }
   }
 })
