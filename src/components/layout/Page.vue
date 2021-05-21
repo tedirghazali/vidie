@@ -1,21 +1,20 @@
 <template>
   <div :class="pageLayout()">
-    <div class="top:section">
+    <div class="top:section" v-if="sectionTop">
       <slot name="sectionTop"></slot>
     </div>
-    <div class="left:section">
+    <div class="left:section" v-if="sectionLeft">
       <slot name="sectionLeft"></slot>
     </div>
     <div class="main:section">
-      <slot name="sectionMain"></slot>
+      <slot></slot>
     </div>
-    <div class="right:section">
+    <div class="right:section" v-if="sectionRight">
       <slot name="sectionRight"></slot>
     </div>
-    <div class="bottom:section">
+    <div class="bottom:section" v-if="sectionBottom">
       <slot name="sectionBottom"></slot>
     </div>
-    <slot></slot>
   </div>
 </template>
 
@@ -27,7 +26,23 @@ export default defineComponent({
   props: {
     sections: {
       type: String,
-      default: ''
+      default: 'full'
+    },
+    sectionTop: {
+      type: Boolean,
+      default: true
+    },
+    sectionLeft: {
+      type: Boolean,
+      default: true
+    },
+    sectionRight: {
+      type: Boolean,
+      default: true
+    },
+    sectionBottom: {
+      type: Boolean,
+      default: true
     }
   },
   setup(props, context) {

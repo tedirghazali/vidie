@@ -1,7 +1,7 @@
 <template>
-  <nav class="nav:bar dark">
+  <nav class="nav:bar dark layer-3">
     <div :class="[containerBar(), 'mobile']">
-      <div class="start:bar-menu mobile" v-show="menuStart">
+      <div class="start:bar-menu mobile" v-if="menuStart">
         <slot name="menuStart"></slot>
       </div>
       <div class="center:bar-menu" v-if="menuCenter">
@@ -10,7 +10,7 @@
       <div class="fill:bar-menu" v-else>
         <slot></slot>
       </div>
-      <div class="end:bar-menu tablet" v-show="menuEnd">
+      <div class="end:bar-menu tablet" v-if="menuEnd">
         <slot name="menuEnd"></slot>
       </div>
     </div>
@@ -29,7 +29,7 @@ export default defineComponent({
     },
     menuStart: {
       type: Boolean,
-      default: false
+      default: true
     },
     menuCenter: {
       type: Boolean,
@@ -37,7 +37,7 @@ export default defineComponent({
     },
     menuEnd: {
       type: Boolean,
-      default: false
+      default: true
     }
   },
   setup(props, context) {

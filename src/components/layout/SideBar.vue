@@ -1,6 +1,6 @@
 <template>
-  <div :class="[sideBar(), 'dark']">
-    <div class="start:bar-menu" v-show="menuStart">
+  <div :class="[sideBar(), 'dark', 'layer-2']">
+    <div class="start:bar-menu" v-if="menuStart">
       <slot name="menuStart"></slot>
     </div>
     <div class="center:bar-menu" v-if="menuCenter">
@@ -9,7 +9,7 @@
     <div class="fill:bar-menu" v-else>
       <slot></slot>
     </div>
-    <div class="end:bar-menu" v-show="menuEnd">
+    <div class="end:bar-menu" v-if="menuEnd">
       <slot name="menuEnd"></slot>
     </div>
   </div>
@@ -27,7 +27,7 @@ export default defineComponent({
     },
     menuStart: {
       type: Boolean,
-      default: false
+      default: true
     },
     menuCenter: {
       type: Boolean,
@@ -35,7 +35,7 @@ export default defineComponent({
     },
     menuEnd: {
       type: Boolean,
-      default: false
+      default: true
     }
   },
   setup(props, context) {
