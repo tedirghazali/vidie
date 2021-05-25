@@ -1,18 +1,18 @@
 <template>
   <div :class="pageLayout()">
-    <div class="top:section" v-if="sectionTop">
+    <div class="sectionTop" v-if="sectionTop">
       <slot name="sectionTop"></slot>
     </div>
-    <div class="left:section" v-if="sectionLeft">
+    <div class="sectionLeft" v-if="sectionLeft">
       <slot name="sectionLeft"></slot>
     </div>
-    <div class="main:section">
+    <div class="sectionMain">
       <slot></slot>
     </div>
-    <div class="right:section" v-if="sectionRight">
+    <div class="sectionRight" v-if="sectionRight">
       <slot name="sectionRight"></slot>
     </div>
-    <div class="bottom:section" v-if="sectionBottom">
+    <div class="sectionBottom" v-if="sectionBottom">
       <slot name="sectionBottom"></slot>
     </div>
   </div>
@@ -20,6 +20,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
+import { $string as useString } from 'alga-js'
 
 export default defineComponent({
   name: 'Page',
@@ -51,7 +52,7 @@ export default defineComponent({
       if(props.sections === '') {
         page = 'page'
       } else {
-        page = props.sections + ':page'
+        page = 'page'+useString.capitalize(props.sections.replace('-', ' '), 'multiple').replace(' ', '').trim()
       }
       return page
     }

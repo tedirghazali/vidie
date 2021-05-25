@@ -1,15 +1,15 @@
 <template>
-  <div :class="[sideBar(), 'dark', 'layer-2']">
-    <div class="start:bar-menu" v-if="menuStart">
+  <div :class="[sideBar(), 'dark', 'zi-2']">
+    <div class="sideMenuStart" v-if="menuStart">
       <slot name="menuStart"></slot>
     </div>
-    <div class="center:bar-menu" v-if="menuCenter">
+    <div class="sideMenuCenter" v-if="menuCenter">
       <slot name="menuCenter"></slot>
     </div>
-    <div class="fill:bar-menu" v-else>
+    <div class="sideMenuFill" v-else>
       <slot></slot>
     </div>
-    <div class="end:bar-menu" v-if="menuEnd">
+    <div class="sideMenuEnd" v-if="menuEnd">
       <slot name="menuEnd"></slot>
     </div>
   </div>
@@ -42,9 +42,9 @@ export default defineComponent({
     const sideBar = () => {
       let sidebar
       if(props.type === '') {
-        sidebar = 'side:bar'
+        sidebar = 'sideBar'
       } else {
-        sidebar = 'side:bar ' + props.type
+        sidebar = 'sideBar ' + props.type
       }
       return sidebar
     }

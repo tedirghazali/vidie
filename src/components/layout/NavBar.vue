@@ -1,16 +1,16 @@
 <template>
-  <nav class="nav:bar dark layer-3">
-    <div :class="[containerBar(), 'mobile']">
-      <div class="start:bar-menu mobile" v-if="menuStart">
+  <nav class="navBar dark zi-3">
+    <div :class="containerBar()">
+      <div class="navMenuStart" v-if="menuStart">
         <slot name="menuStart"></slot>
       </div>
-      <div class="center:bar-menu" v-if="menuCenter">
+      <div class="navMenuCenter" v-if="menuCenter">
         <slot name="menuCenter"></slot>
       </div>
-      <div class="fill:bar-menu" v-else>
+      <div class="navMenuFill" v-else>
         <slot></slot>
       </div>
-      <div class="end:bar-menu tablet" v-if="menuEnd">
+      <div class="navMenuEnd" v-if="menuEnd">
         <slot name="menuEnd"></slot>
       </div>
     </div>
@@ -19,6 +19,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
+import { $string as useString } from 'alga-js'
 
 export default defineComponent({
   name: 'NavBar',
@@ -46,9 +47,9 @@ export default defineComponent({
       if(props.container === true) {
         container = 'container'
       } else if(props.container === false) {
-        container = 'bar-wrapper'
+        container = 'navWrapper'
       } else {
-        container = props.container + ':container'
+        container =  'container'+useString.capitalize(props.container)
       }
       return container
     }

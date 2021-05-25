@@ -13,7 +13,8 @@ export default defineConfig({
       external: ['vue', 'alga-js', 'alga-css'],
       output: {
         globals: {
-          vue: 'Vue'
+          vue: 'Vue',
+          'alga-js': 'Alga'
         }
       }
     }

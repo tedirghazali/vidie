@@ -1,9 +1,9 @@
 <template>
   <Page sections="top-left" :section-right="false" :section-bottom="false">
     <template v-slot:sectionTop>
-      <NavBar :menuStart="true" :menuEnd="true">
+      <NavBar :menuStart="true" :menuEnd="true" class="sd">
         <template v-slot:menuStart>
-          <strong class="text-7">Vidie</strong>
+          <strong class="txt-7">Vidie</strong>
         </template>
         <template v-slot:menuEnd>
           <DarkMode>
@@ -23,54 +23,54 @@
       </NavBar>
     </template>
     <template v-slot:sectionLeft>
-      <SideBar :menu-start="false" :menu-end="false">
+      <SideBar :menu-start="false" :menu-end="false" class="sd-2">
         <template v-slot:default>
-          <h4 class="x:padding-4 gray:text bottom:margin-1">Menus</h4>
-          <ul class="menu:nav">
-            <li class="nav-item">
-              <a href="#" class="nav-link primary:hover left:line-2">Dashboard</a>
+          <h4 class="pdX-4 txtGray mgBottom-1">Menus</h4>
+          <ul class="menu">
+            <li class="menuItem">
+              <a href="#" class="menuLink primary.hover left:line-2">Dashboard</a>
             </li>
-            <li class="nav-item">
-              <a href="#" class="nav-link primary:hover">Contents</a>
+            <li class="menuItem">
+              <a href="#" class="menuLink primary.hover">Contents</a>
             </li>
-            <li class="nav-item">
-              <a href="#" class="nav-link primary:hover">Taxonomies</a>
+            <li class="menuItem">
+              <a href="#" class="menuLink primary.hover">Taxonomies</a>
             </li>
-            <li class="nav-item">
-              <a href="#" class="nav-link primary:hover">Pages</a>
+            <li class="menuItem">
+              <a href="#" class="menuLink primary.hover">Pages</a>
             </li>
-            <li class="nav-item">
-              <a href="#" class="nav-link primary:hover">Files</a>
-            </li>
-          </ul>
-          <h4 class="x:padding-4 gray:text bottom:margin-1">Themes</h4>
-          <ul class="menu:nav">
-            <li class="nav-item">
-              <a href="#" class="nav-link primary:hover">Templates</a>
-            </li>
-            <li class="nav-item">
-              <a href="#" class="nav-link primary:hover">Widgets</a>
-            </li>
-            <li class="nav-item">
-              <a href="#" class="nav-link primary:hover">Navigations</a>
-            </li>
-            <li class="nav-item">
-              <a href="#" class="nav-link primary:hover">Custom Themes</a>
+            <li class="menuItem">
+              <a href="#" class="menuLink primary.hover">Files</a>
             </li>
           </ul>
-          <h4 class="x:padding-4 gray:text bottom:margin-1">Configures</h4>
-          <ul class="menu:nav">
-            <li class="nav-item">
-              <a href="#" class="nav-link primary:hover">Settings</a>
+          <h4 class="pdX-4 txtGray mgBottom-1">Themes</h4>
+          <ul class="menu">
+            <li class="menuItem">
+              <a href="#" class="menuLink primary.hover">Templates</a>
             </li>
-            <li class="nav-item">
-              <a href="#" class="nav-link primary:hover">Languages</a>
+            <li class="menuItem">
+              <a href="#" class="menuLink primary.hover">Widgets</a>
             </li>
-            <li class="nav-item">
-              <a href="#" class="nav-link primary:hover">Tools</a>
+            <li class="menuItem">
+              <a href="#" class="menuLink primary.hover">Navigations</a>
             </li>
-            <li class="nav-item">
-              <a href="#" class="nav-link primary:hover">Others</a>
+            <li class="menuItem">
+              <a href="#" class="menuLink primary.hover">Custom Themes</a>
+            </li>
+          </ul>
+          <h4 class="pdX-4 txtGray mgBottom-1">Configures</h4>
+          <ul class="menu">
+            <li class="menuItem">
+              <a href="#" class="menuLink primary.hover">Settings</a>
+            </li>
+            <li class="menuItem">
+              <a href="#" class="menuLink primary.hover">Languages</a>
+            </li>
+            <li class="menuItem">
+              <a href="#" class="menuLink primary.hover">Tools</a>
+            </li>
+            <li class="menuItem">
+              <a href="#" class="menuLink primary.hover">Others</a>
             </li>
           </ul>
         </template>
@@ -78,7 +78,18 @@
     </template>
     <template v-slot:default>
       <div class="container">
-        <TagsPage />
+        <div class="flexStart flexWrap">
+          <div class="pdX-2 pdY-4 wd-4/12">
+          <div class="box darkest">
+            <TagsPage />
+          </div>
+          </div>
+          <div class="pdX-2 pdY-4 wd-4/12">
+          <div class="box darkest">
+            <CalendarBase />
+          </div>
+          </div>
+        </div>
       </div>
     </template>
   </Page>
@@ -90,6 +101,7 @@ import Page from './components/layout/Page.vue'
 import NavBar from './components/layout/NavBar.vue'
 import SideBar from './components/layout/SideBar.vue'
 import DarkMode from './components/layout/DarkMode.vue'
+import CalendarBase from './components/calendar/CalendarBase.vue'
 import TagsPage from './pages/TagsPage.vue'
 
 export default defineComponent({
@@ -99,7 +111,8 @@ export default defineComponent({
     NavBar,
     SideBar,
     TagsPage,
-    DarkMode
+    DarkMode,
+    CalendarBase
   }
 })
 </script>
