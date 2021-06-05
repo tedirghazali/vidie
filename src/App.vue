@@ -1,7 +1,7 @@
 <template>
-  <Page sections="top-left" :section-right="false" :section-bottom="false">
+  <Page sections="top" :section-left="false" :section-right="false" :section-bottom="false">
     <template v-slot:sectionTop>
-      <NavBar :menuStart="true" :menuEnd="true" class="sd">
+      <NavBar :menuStart="true" :menuEnd="true" class="bd-0 bdBottom-1 bdSolid bdOpacity-2 bdBlack sd-1">
         <template v-slot:menuStart>
           <strong class="txt-7">Vidie</strong>
         </template>
@@ -77,20 +77,7 @@
       </SideBar>
     </template>
     <template v-slot:default>
-      <div class="container">
-        <div class="flexStart flexWrap">
-          <div class="pdX-2 pdY-4 wd-4/12">
-          <div class="box darkest">
-            <TagsPage />
-          </div>
-          </div>
-          <div class="pdX-2 pdY-4 wd-4/12">
-          <div class="box darkest">
-            <CalendarBase />
-          </div>
-          </div>
-        </div>
-      </div>
+      <CalendarPage />
     </template>
   </Page>
 </template>
@@ -101,8 +88,8 @@ import Page from './components/layout/Page.vue'
 import NavBar from './components/layout/NavBar.vue'
 import SideBar from './components/layout/SideBar.vue'
 import DarkMode from './components/layout/DarkMode.vue'
-import CalendarBase from './components/calendar/CalendarBase.vue'
 import TagsPage from './pages/TagsPage.vue'
+import CalendarPage from './pages/CalendarPage.vue'
 
 export default defineComponent({
   name: 'App',
@@ -110,9 +97,9 @@ export default defineComponent({
     Page,
     NavBar,
     SideBar,
-    TagsPage,
     DarkMode,
-    CalendarBase
+    TagsPage,
+    CalendarPage
   }
 })
 </script>

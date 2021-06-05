@@ -1,21 +1,36 @@
 <template>
-  <TagsInput
-    v-model="tag"
-    :datalist="tags"
-    :separator="separator" 
-    :whitelist="whiteList" 
-    :blacklist="blackList"
-    placeholder="Add a new tag" />
+  <div class="container">
+    <div class="flexStart flexWrap">
+      <div class="pdX-2 pdY-4 wd-4/12">
+        <div class="box darkest">
+          <TagsInput
+            v-model="tag"
+            :datalist="tags"
+            :separator="separator" 
+            :whitelist="whiteList" 
+            :blacklist="blackList"
+            placeholder="Add a new tag" />
+        </div>
+      </div>
+      <div class="pdX-2 pdY-4 wd-4/12">
+        <div class="box darkest">
+          <CalendarBase />
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref, reactive, watch } from 'vue'
 import TagsInput from '../components/form/TagsInput.vue'
+import CalendarBase from '../components/calendar/CalendarBase.vue'
 
 export default defineComponent({
   name: 'TagsPage',
   components: {
-    TagsInput
+    TagsInput,
+    CalendarBase
   },
   setup() {
     const tags = reactive(['HTML', 'CSS'])
