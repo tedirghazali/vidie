@@ -8,8 +8,8 @@
       <input type="text" v-model="tag" ref="tagInput" class="input-control" :placeholder="placeholderInput" @input="autoWidth(), createTag($event), openSuggestion(tag)" @keyup.enter="createTag($event)" @blur="closeSuggestion">
     </div>
     <transition name="tagsinput-transition" enter-active-class="animate fadeIn:animate" leave-active-class="animate fadeOut:animate">
-    <div class="picker-menu width-100 top:margin-0 top:border-0 padding-0 px:height-20 auto:overflow-y" v-show="suggestion">
-      <div v-for="wt in whiteTags" :key="wt" class="picker-item" style="--active-color: var(--alga-green)">{{ wt }}</div>
+    <div class="pickerMenu wd-100 mgTop-0 bdTop-0 pd-0 ph-20 overflowAutoY" v-show="suggestion">
+      <div v-for="wt in whiteTags" :key="wt" class="pickerItem" style="--bgActive: var(--green)">{{ wt }}</div>
     </div>
     </transition>
   </div>

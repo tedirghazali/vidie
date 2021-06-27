@@ -88,8 +88,9 @@ import Page from './components/layout/Page.vue'
 import NavBar from './components/layout/NavBar.vue'
 import SideBar from './components/layout/SideBar.vue'
 import DarkMode from './components/layout/DarkMode.vue'
-import TagsPage from './pages/TagsPage.vue'
+import InputPage from './pages/InputPage.vue'
 import CalendarPage from './pages/CalendarPage.vue'
+import PickerPage from './pages/PickerPage.vue'
 
 export default defineComponent({
   name: 'App',
@@ -98,8 +99,9 @@ export default defineComponent({
     NavBar,
     SideBar,
     DarkMode,
-    TagsPage,
-    CalendarPage
+    InputPage,
+    CalendarPage,
+    PickerPage
   }
 })
 </script>
