@@ -1,22 +1,22 @@
 <template>
   <div>
     <div v-if="toggleRef === 'yearly'">
-      <YearlyCalendar :year="yearRef" />
+      <YearlyCalendar :locale="'en-US'" :weekday="'narrow'" />
     </div>
     <div v-if="toggleRef === 'monthly'">
-      <MonthlyCalendar :year="yearRef" :month="monthRef" :weekday="'long'" />
+      <MonthlyCalendar :locale="'en-US'" :weekday="'long'" />
     </div>
     <div v-if="toggleRef === 'weekly'">
-      <WeeklyCalendar :year="yearRef" :month="monthRef" :day="dayRef" />
+      <WeeklyCalendar :locale="'en-US'" :weekday="'short'" />
     </div>
     <div v-if="toggleRef === 'daily'">
-      <DailyCalendar :year="yearRef" :month="monthRef" :day="dayRef" />
+      <DailyCalendar :locale="'en-US'" :weekday="'short'" />
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, toRefs } from 'vue'
+import { defineComponent, toRef, inject } from 'vue'
 import YearlyCalendar from './YearlyCalendar.vue'
 import MonthlyCalendar from './MonthlyCalendar.vue'
 import WeeklyCalendar from './WeeklyCalendar.vue'
@@ -27,19 +27,7 @@ export default defineComponent({
   props: {
     toggle: {
       type: String,
-      default: (typeof window === 'object' && 'localStorage' in window && localStorage.getItem('toggledCalendar')) ? localStorage.getItem('toggledCalendar') : 'monthly'
-    },
-    year: {
-      type: Number,
-      default: new Date().getFullYear()
-    },
-    month: {
-      type: Number,
-      default: Number(new Date().getMonth()) + 1
-    },
-    day: {
-      type: Number,
-      default: new Date().getDate()
+      default: 'monthly'
     }
   },
   emits: ['update:toggle'],
@@ -50,13 +38,10 @@ export default defineComponent({
     DailyCalendar
   },
   setup(props, context) {
-    const {toggle: toggleRef, year: yearRef, month: monthRef, day: dayRef} = toRefs(props)
+    const toggleRef = toRef(props, 'toggle')
     
     return {
-      toggleRef,
-      yearRef,
-      monthRef,
-      dayRef
+      toggleRef
     }
   }
 })

@@ -28,24 +28,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, toRefs } from 'vue'
+import { defineComponent, computed, toRefs, inject } from 'vue'
 import { useCalendar } from '../../assets/alga-vue.es.js'
 
 export default defineComponent({
   name: 'WeeklyCalendar',
   props: {
-    year: {
-      type: Number,
-      default: new Date().getFullYear()
-    },
-    month: {
-      type: Number,
-      default: Number(new Date().getMonth()) + 1
-    },
-    day: {
-      type: Number,
-      default: new Date().getDate()
-    },
     locale: {
       type: String,
       default: 'en-US'
@@ -56,11 +44,16 @@ export default defineComponent({
     }
   },
   setup(props, context) {
-    const { year: yearRef, month: monthRef, day: dayRef, locale, weekday } = toRefs(props)
-    const { weekDays, beforeDays, afterDays } = useCalendar(yearRef, monthRef, dayRef, locale, weekday)
+    const { locale, weekday } = toRefs(props)
+    
+    const year = inject<number>('year', new Date().getFullYear())
+    const month = inject<number>('month', Number(new Date().getMonth()) + 1)
+    const day = inject<number>('day', new Date().getDate())
+    
+    const { weekDays, beforeDays, afterDays } = useCalendar(year, month, day, locale, weekday)
     
     const weekDates = computed<any[]>(() => {
-      return [...beforeDays.value, new Date(yearRef.value, monthRef.value, dayRef.value).valueOf(), ...afterDays.value]
+      return [...beforeDays.value, new Date(year.value, Number(month.value) - 1, day.value).valueOf(), ...afterDays.value]
     })
     
     const showDay = (time: number) => {

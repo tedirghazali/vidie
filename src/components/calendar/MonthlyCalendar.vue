@@ -21,7 +21,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, toRefs, watch } from 'vue'
+import { defineComponent, ref, toRefs, inject, watch } from 'vue'
 import { useCalendar } from '../../assets/alga-vue.es.js' //../../assets/alga-vue.es.js
 
 export default defineComponent({
@@ -30,14 +30,6 @@ export default defineComponent({
     modelValue: {
       type: String,
       default: ''
-    },
-    year: {
-      type: Number,
-      default: new Date().getFullYear()
-    },
-    month: {
-      type: Number,
-      default: Number(new Date().getMonth()) + 1
     },
     locale: {
       type: String,
@@ -48,12 +40,24 @@ export default defineComponent({
       default: 'short'
     }
   },
-  emits: ['update:modelValue', 'leave'],
+  emits: ['update:modelValue', 'action'],
   setup(props, context) {
     const resultDate = ref<string>('')
-    const { modelValue: current, year: yearRef, month: monthRef, locale, weekday } = toRefs(props)
-    const { weekDays, prevDays, monthDays, nextDays } = useCalendar(yearRef, monthRef, null, locale, weekday)
-  
+    const { modelValue: current, locale, weekday } = toRefs(props)
+    
+    const year = inject<number>('year', new Date().getFullYear())
+    const month = inject<number>('month', Number(new Date().getMonth()) + 1)
+    
+    const { setYearRef, setMonthRef, weekDays, prevDays, monthDays, nextDays } = useCalendar(year, month, null, locale, weekday)
+    
+    watch(year, (newVal, oldVal) => {
+      setYearRef.value = year.value
+    })
+    
+    watch(month, (newVal, oldVal) => {
+      setMonthRef.value = month.value
+    })
+    
     const eventDate = (date: string) => {
       resultDate.value = date
       context.emit('update:modelValue', resultDate.value)

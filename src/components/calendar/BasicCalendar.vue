@@ -50,9 +50,9 @@ export default defineComponent({
   setup(props, context) {
     const resultDate = ref<string>('')
     const { modelValue: current, year: yearRef, month: monthRef, locale, weekday } = toRefs(props)
-    //const { weekDays, prevDays, monthDays, nextDays } = useCalendar(yearRef, monthRef, null, locale, weekday)
+    const { weekDays, prevDays, monthDays, nextDays } = useCalendar(yearRef, monthRef, null, locale, weekday)
     
-    const weekDays = computed<string[]>(() => {
+    /*const weekDays = computed<string[]>(() => {
       return dt.days(locale.value, weekday.value)
     })
     
@@ -84,7 +84,7 @@ export default defineComponent({
       }
       
       return restNextDays
-    })
+    })*/
     
     const eventDate = (date: string) => {
       resultDate.value = date

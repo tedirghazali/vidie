@@ -32,26 +32,30 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, inject } from 'vue'
 
 export default defineComponent({
   name: 'DailyCalendar',
   props: {
-    year: {
-      type: Number,
-      default: new Date().getFullYear()
+    locale: {
+      type: String,
+      default: 'en-US'
     },
-    month: {
-      type: Number,
-      default: Number(new Date().getMonth()) + 1
-    },
-    day: {
-      type: Number,
-      default: new Date().getDate()
+    weekday: {
+      type: String,
+      default: 'short'
     }
   },
   setup() {
-  
+    const year = inject<number>('year', new Date().getFullYear())
+    const month = inject<number>('month', Number(new Date().getMonth()) + 1)
+    const day = inject<number>('day', new Date().getDate())
+    
+    return {
+      year,
+      month,
+      day
+    }
   }
 })
 </script>

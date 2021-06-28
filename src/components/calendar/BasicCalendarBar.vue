@@ -2,8 +2,8 @@
   <div class="flexBetween itemsCenter pd-2">
     <div class="cursorPointer dark">Prev</div>
     <div class="flexEvenly">
-      <SelectPicker v-model="setCurrentMonth" :options="getMonthNames" class="mgRight-2" />
-      <SelectPicker v-model="setCurrentYear" :options="getRangeYears" />
+      <SelectPicker v-model="setMonthRef" :options="getMonthNames" class="mgRight-2" />
+      <SelectPicker v-model="setYearRef" :options="getRangeYears" />
     </div>
     <div class="cursorPointer dark">Next</div>
   </div>
@@ -16,29 +16,75 @@ import SelectPicker from '../picker/SelectPicker.vue'
 
 export default defineComponent({
   name: 'BasicCalendarBar',
+  props: {
+    modelValue: {
+      type: String,
+      default: ''
+    },
+    year: {
+      type: Number,
+      default: new Date().getFullYear()
+    },
+    month: {
+      type: Number,
+      default: Number(new Date().getMonth()) + 1
+    },
+    day: {
+      type: Number,
+      default: new Date().getDate()
+    },
+    locale: {
+      type: String,
+      default: 'en-US'
+    },
+    weekday: {
+      type: String,
+      default: 'short'
+    }
+  },
   components: {
     SelectPicker
   },
-  setup() {
+  setup(props, context) {
     const {
-      setCurrentYear,
-      setCurrentMonth,
+      setYearRef,
+      setMonthRef,
+      setDayRef,
+      setWeeks,
+      setCalendarType,
       startYear,
       endYear,
       getRangeYears,
       getMonthNames,
-      invokeControlEvent
+      getDayNames,
+      getWeeks,
+      getCalendarTitle,
+      handleYear,
+      handleMonth,
+      handleWeek,
+      handleDay
     } = handleCalendar()
     
-    setCurrentYear.value = Number(new Date().getFullYear())
-    setCurrentMonth.value = Number(new Date().getMonth())
+    setYearRef.value = Number(new Date().getFullYear())
+    setMonthRef.value = Number(new Date().getMonth())
     
     return {
-      setCurrentYear,
-      setCurrentMonth,
+      setYearRef,
+      setMonthRef,
+      setDayRef,
+      setWeeks,
+      setCalendarType,
+      startYear,
+      endYear,
       getRangeYears,
       getMonthNames,
-      invokeControlEvent
+      getDayNames,
+      getWeeks,
+      getCalendarTitle,
+      handleYear,
+      handleMonth,
+      handleWeek,
+      handleDay
     }
   }
 })
