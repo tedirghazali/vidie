@@ -39,7 +39,7 @@
   "homepage": "https://github.com/tedirghazali/vidie#readme",
   "dependencies": {
     "alga-css": "*",
-    "alga-js": "^0.0.1-beta3",
+    "alga-js": "^0.0.1-beta5",
     "alga-vue": "^0.0.1-development1",
     "vue": "^3.0.5"
   },

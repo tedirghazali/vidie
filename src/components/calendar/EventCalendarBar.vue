@@ -46,19 +46,26 @@ export default defineComponent({
       type: Number,
       default: new Date().getDate()
     },
+    week: {
+      type: Number
+    },
     locale: {
       type: String,
       default: 'en-US'
     },
-    weekday: {
+    dayType: {
       type: String,
       default: 'short'
+    },
+    monthType: {
+      type: String,
+      default: 'long'
     }
   },
-  emits: ['update:toggle', 'update:year', 'update:month', 'update:day', 'action'],
+  emits: ['update:toggle', 'update:year', 'update:month', 'update:day', 'update:week', 'action'],
   setup(props, context) {
     const toggled = ref<string>('')
-    const { year: yearRef, month: monthRef, day: dayRef, locale, weekday } = toRefs(props)
+    const { year: yearRef, month: monthRef, day: dayRef, locale, dayType, monthType } = toRefs(props)
     const {
       setYearRef,
       setMonthRef,
@@ -76,7 +83,7 @@ export default defineComponent({
       handleMonth,
       handleWeek,
       handleDay
-    } = handleCalendar(yearRef, monthRef, dayRef, locale, weekday)
+    } = handleCalendar(yearRef, monthRef, dayRef, locale, dayType, monthType)
     
     toggled.value = props.toggle
     setCalendarType.value = toggled.value
@@ -96,6 +103,7 @@ export default defineComponent({
         context.emit('update:day', setDayRef.value)
       } else if(setCalendarType.value === 'weekly') {
         handleWeek(controlArg)
+        context.emit('update:week', setWeeks.value)
       } else if(setCalendarType.value === 'yearly') {
         handleYear(controlArg)
         context.emit('update:year', setYearRef.value)

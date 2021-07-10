@@ -1,60 +1,52 @@
 <template>
   <div class="list listBorder listSharp bdDarker">
-    <div class="listItem active flex txtBold bgDarkest bdDarker">
-      <div class="pw-15">allday</div>
-      <div class="pdLeft-2">
-        <span class="dot"></span>
-        <span class="pdLeft-3">List Item 1</span>
+    <template v-for="event in dailyEvents" :key="event">
+      <div v-if="event.allday === 1" class="listItem active flex txtBold bgDarkest bdDarker">
+        <div class="pw-15">allday</div>
+        <div class="pdLeft-2">
+          <span class="dot"></span>
+          <span class="pdLeft-3">{{ event.title }}</span>
+        </div>
       </div>
-    </div>
-    <div class="listItem flex bdDarker">
-      <div class="pw-15">8:00 - 10:00</div>
-      <div class="pdLeft-2">
-        <span class="dot"></span>
-        <span class="pdLeft-3">List Item 2</span>
+      <div v-else class="listItem flex bdDarker">
+        <div v-if="event.enddate === '0000-00-00 00:00:00'" class="pw-15">13:00</div>
+        <div v-else class="pw-15">13:00 - 16:00</div>
+        <div class="pdLeft-2">
+          <span class="dot"></span>
+          <span class="pdLeft-3">{{ event.title }}</span>
+        </div>
       </div>
-    </div>
-    <div class="listItem flex bdDarker">
-      <div class="pw-15">10:30 - 11:00</div>
-      <div class="pdLeft-2">
-        <span class="dot"></span>
-        <span class="pdLeft-3">List Item 3</span>
-      </div>
-    </div>
-    <div class="listItem flex bdDarker">
-      <div class="pw-15">13:00 - 16:00</div>
-      <div class="pdLeft-2">
-        <span class="dot"></span>
-        <span class="pdLeft-3">List Item 4</span>
-      </div>
-    </div>
+    </template>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, inject } from 'vue'
+import { defineComponent, toRef, inject } from 'vue'
 
 export default defineComponent({
   name: 'DailyCalendar',
   props: {
-    locale: {
-      type: String,
-      default: 'en-US'
+    events: {
+      type: Array,
+      default: []
     },
-    weekday: {
+    dayType: {
       type: String,
       default: 'short'
     }
   },
-  setup() {
+  setup(props) {
     const year = inject<number>('year', new Date().getFullYear())
     const month = inject<number>('month', Number(new Date().getMonth()) + 1)
     const day = inject<number>('day', new Date().getDate())
+    const locale = inject<number>('locale', 'en-US')
+    const dailyEvents = toRef(props, 'events')
     
     return {
       year,
       month,
-      day
+      day,
+      dailyEvents
     }
   }
 })

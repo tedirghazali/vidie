@@ -1,22 +1,22 @@
 <template>
   <div>
     <div v-if="toggleRef === 'yearly'">
-      <YearlyCalendar :locale="'en-US'" :weekday="'narrow'" />
+      <YearlyCalendar :events="yearlyEvents" :dayType="'narrow'" :monthType="'long'" />
     </div>
     <div v-if="toggleRef === 'monthly'">
-      <MonthlyCalendar :locale="'en-US'" :weekday="'long'" />
+      <MonthlyCalendar :events="monthlyEvents" :dayType="'long'" />
     </div>
     <div v-if="toggleRef === 'weekly'">
-      <WeeklyCalendar :locale="'en-US'" :weekday="'short'" />
+      <WeeklyCalendar v-model:start="startRef" v-model:end="endRef" :events="weeklyEvents" :dayType="'short'" />
     </div>
     <div v-if="toggleRef === 'daily'">
-      <DailyCalendar :locale="'en-US'" :weekday="'short'" />
+      <DailyCalendar :events="dailyEvents" :dayType="'short'" />
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, toRef, inject } from 'vue'
+import { defineComponent, ref, toRef, watch } from 'vue'
 import YearlyCalendar from './YearlyCalendar.vue'
 import MonthlyCalendar from './MonthlyCalendar.vue'
 import WeeklyCalendar from './WeeklyCalendar.vue'
@@ -28,9 +28,31 @@ export default defineComponent({
     toggle: {
       type: String,
       default: 'monthly'
-    }
+    },
+    start: {
+      type: String,
+    },
+    end: {
+      type: String,
+    },
+    yearlyEvents: {
+      type: Array,
+      default: []
+    },
+    monthlyEvents: {
+      type: Array,
+      default: []
+    },
+    dailyEvents: {
+      type: Array,
+      default: []
+    },
+    weeklyEvents: {
+      type: Array,
+      default: []
+    },
   },
-  emits: ['update:toggle'],
+  emits: ['update:start', 'update:end'],
   components: {
     YearlyCalendar,
     MonthlyCalendar,
@@ -38,10 +60,30 @@ export default defineComponent({
     DailyCalendar
   },
   setup(props, context) {
+    const startRef = ref<string>('')
+    const endRef = ref<string>('')
     const toggleRef = toRef(props, 'toggle')
+    const yearlyEvents = toRef(props, 'yearlyEvents')
+    const monthlyEvents = toRef(props, 'monthlyEvents')
+    const dailyEvents = toRef(props, 'dailyEvents')
+    const weeklyEvents = toRef(props, 'weeklyEvents')
+    
+    watch(startRef, () => {
+      context.emit('update:start', startRef.value)
+    })
+    
+    watch(endRef, () => {
+      context.emit('update:end', endRef.value)
+    })
     
     return {
-      toggleRef
+      startRef,
+      endRef,
+      toggleRef,
+      yearlyEvents,
+      monthlyEvents,
+      dailyEvents,
+      weeklyEvents
     }
   }
 })
