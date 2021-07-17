@@ -11,7 +11,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import { handleCalendar } from '../../assets/alga-vue.es.js'
+import { handleCalendar } from 'alga-vue' //../../assets/alga-vue.es.js
 import SelectPicker from '../picker/SelectPicker.vue'
 
 export default defineComponent({

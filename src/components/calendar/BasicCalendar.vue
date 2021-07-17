@@ -7,7 +7,7 @@
       <div v-for="pday in getPrevDays" :key="pday" class="mgY-1 wd-100 txtCenter txtGray">
         <div class="pd-2">{{ pday }}</div>
       </div>
-      <div v-for="mday in getMonthDays" :key="mday" :class="['mgY-1', 'wd-100', 'txtCenter']" @click="eventDate(mday)">
+      <div v-for="mday in getMonthDays" :key="mday" :class="['mgY-1', 'wd-100', 'txtCenter', 'cursorPointer']" @click="eventDate(mday)">
         <div v-if="`${mday}` in getEvents" class="pd-2 relative">
           <div>{{ mday }}</div>
           <span class="dot absolute bottom-0 left-40" style="--dot: 6px"></span>
@@ -23,7 +23,7 @@
 
 <script lang="ts">
 import { defineComponent, ref, toRefs, watch, computed } from 'vue'
-import { useCalendar } from '../../assets/alga-vue.es.js' //../../assets/alga-vue.es.js
+import { useCalendar } from 'alga-vue' //../../assets/alga-vue.es.js
 //import { date as dt } from '../../assets/alga.min.js'
 
 export default defineComponent({
@@ -60,9 +60,9 @@ export default defineComponent({
     const { modelValue: current, year: yearRef, month: monthRef, locale, dayType, events } = toRefs(props)
     const { getDayNames, getPrevDays, getMonthDays, getNextDays, setEvents, getEvents } = useCalendar(yearRef, monthRef, null, locale, dayType)
     
-    const eventDate = (date: string) => {
-      resultDate.value = date
-      context.emit('update:modelValue', resultDate.value)
+    const eventDate = (date: string | number) => {
+      resultDate.value = `${yearRef.value}-${monthRef.value}-${date}`
+      context.emit('update:modelValue', `${yearRef.value}-${monthRef.value}-${date}`)
       context.emit('action')
     }
     

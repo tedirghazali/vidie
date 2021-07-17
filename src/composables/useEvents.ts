@@ -41,7 +41,10 @@ export default function useEvents(getYearRef: any = null, getMonthRef: any = nul
   watch(getMonthRef, setEventsByMonth)
   watch(getDayRef, setEventsByDate)
   watch(endDateRef, setEventsInBetween)
-  watch(getToggleRef, setEventsByMonth)
+  watch(getToggleRef, () => {
+    setEventsByMonth()
+    setEventsInBetween()
+  })
   
   return {
     getEvents,

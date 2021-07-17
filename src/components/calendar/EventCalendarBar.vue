@@ -24,8 +24,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, toRefs } from 'vue'
-import { handleCalendar } from '../../assets/alga-vue.es.js'
+import { defineComponent, ref, toRefs, watch } from 'vue'
+import { handleCalendar } from 'alga-vue' //../../assets/alga-vue.es.js
 
 export default defineComponent({
   name: 'EventCalendarBar',
@@ -65,7 +65,7 @@ export default defineComponent({
   emits: ['update:toggle', 'update:year', 'update:month', 'update:day', 'update:week', 'action'],
   setup(props, context) {
     const toggled = ref<string>('')
-    const { year: yearRef, month: monthRef, day: dayRef, locale, dayType, monthType } = toRefs(props)
+    const { toggle: toggleRef, year: yearRef, month: monthRef, day: dayRef, locale, dayType, monthType } = toRefs(props)
     const {
       setYearRef,
       setMonthRef,
@@ -87,6 +87,14 @@ export default defineComponent({
     
     toggled.value = props.toggle
     setCalendarType.value = toggled.value
+    
+    watch(toggleRef, () => {
+      toggled.value = props.toggle
+      setCalendarType.value = toggled.value
+      setYearRef.value = props.year
+      setMonthRef.value = props.month
+      setDayRef.value = props.day
+    })
     
     const toggledEvent = (toggleArg: string) => {
       toggled.value = toggleArg

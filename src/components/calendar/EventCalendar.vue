@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-if="toggleRef === 'yearly'">
-      <YearlyCalendar :events="yearlyEvents" :dayType="'narrow'" :monthType="'long'" />
+      <YearlyCalendar v-model="yearRef" :events="yearlyEvents" :dayType="'narrow'" :monthType="'long'" />
     </div>
     <div v-if="toggleRef === 'monthly'">
       <MonthlyCalendar :events="monthlyEvents" :dayType="'long'" />
@@ -29,6 +29,9 @@ export default defineComponent({
       type: String,
       default: 'monthly'
     },
+    yearly: {
+      type: String
+    },
     start: {
       type: String,
     },
@@ -52,7 +55,7 @@ export default defineComponent({
       default: []
     },
   },
-  emits: ['update:start', 'update:end'],
+  emits: ['update:yearly', 'update:start', 'update:end'],
   components: {
     YearlyCalendar,
     MonthlyCalendar,
@@ -60,6 +63,7 @@ export default defineComponent({
     DailyCalendar
   },
   setup(props, context) {
+    const yearRef = ref<string>('')
     const startRef = ref<string>('')
     const endRef = ref<string>('')
     const toggleRef = toRef(props, 'toggle')
@@ -76,7 +80,12 @@ export default defineComponent({
       context.emit('update:end', endRef.value)
     })
     
+    watch(yearRef, () => {
+      context.emit('update:yearly', yearRef.value)
+    })
+    
     return {
+      yearRef,
       startRef,
       endRef,
       toggleRef,

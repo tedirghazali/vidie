@@ -9,8 +9,8 @@
         </div>
       </div>
       <div v-else class="listItem flex bdDarker">
-        <div v-if="event.enddate === '0000-00-00 00:00:00'" class="pw-15">13:00</div>
-        <div v-else class="pw-15">13:00 - 16:00</div>
+        <div v-if="event.enddate === '0000-00-00 00:00:00'" class="pw-15">{{ getShortTime(event.startdate) }}</div>
+        <div v-else class="pw-15">{{ getShortTime(event.startdate) }} - {{ getShortTime(event.enddate) }}</div>
         <div class="pdLeft-2">
           <span class="dot"></span>
           <span class="pdLeft-3">{{ event.title }}</span>
@@ -42,11 +42,16 @@ export default defineComponent({
     const locale = inject<number>('locale', 'en-US')
     const dailyEvents = toRef(props, 'events')
     
+    const getShortTime = (dateStr: string) => {
+      return new Date(dateStr).toTimeString().match(/\d{2}:\d{2}/g).toString()
+    }
+    
     return {
       year,
       month,
       day,
-      dailyEvents
+      dailyEvents,
+      getShortTime
     }
   }
 })

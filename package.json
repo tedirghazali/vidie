@@ -1,6 +1,6 @@
 {
   "name": "vidie",
-  "version": "0.0.1-development2",
+  "version": "0.0.1-development3",
   "description": "Vidie is an UI library for Vue 3",
   "files": [
     "dist"
@@ -40,7 +40,7 @@
   "dependencies": {
     "alga-css": "*",
     "alga-js": "^0.0.1-beta5",
-    "alga-vue": "^0.0.1-development1",
+    "alga-vue": "^0.0.1-development2",
     "vue": "^3.0.5"
   },
   "devDependencies": {
