@@ -31,7 +31,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, reactive, toRefs, inject, watch } from 'vue'
+import { defineComponent, ref, reactive, toRefs, inject, watch, watchEffect, toRaw } from 'vue'
 import { useCalendar } from 'alga-vue' //../../assets/alga-vue.es.js
 
 export default defineComponent({
@@ -63,8 +63,8 @@ export default defineComponent({
       frameWidth: ref<number>(0)
     })
     
-    const year = inject<number>('year', new Date().getFullYear())
-    const month = inject<number>('month', Number(new Date().getMonth()) + 1)
+    const year = inject<any>('year', new Date().getFullYear())
+    const month = inject<any>('month', Number(new Date().getMonth()) + 1)
     
     const { setYearRef, setMonthRef, getDayNames, getPrevDays, getMonthDays, getNextDays, setEvents, getEvents } = useCalendar(year, month, null, locale, dayType)
     
@@ -72,11 +72,11 @@ export default defineComponent({
       setEvents.value = events.value
     })
     
-    watch(year, (newVal, oldVal) => {
+    watchEffect(() => {
       setYearRef.value = year.value
     })
     
-    watch(month, (newVal, oldVal) => {
+    watchEffect(() => {
       setMonthRef.value = month.value
       setEvents.value = events.value
     })
@@ -91,7 +91,8 @@ export default defineComponent({
     }
     
     const getShortTime = (dateStr: string) => {
-      return new Date(dateStr).toTimeString().match(/\d{2}:\d{2}/g).toString()
+      const timeArr: string[] = dateStr.split(/\s|,|\:|-|T|Z/g).filter((i: string) => i !== '')
+      return `${timeArr[3]}:${timeArr[4]}`
     }
     
     const eventWidth = (startStr: string, endStr: string) => {
@@ -107,7 +108,7 @@ export default defineComponent({
     }
 
     watch(current, (newVal, oldVal) => {
-      resultDate.value = props.current
+      resultDate.value = props.modelValue
     })
 
     return {

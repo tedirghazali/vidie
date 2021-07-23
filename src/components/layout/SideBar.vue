@@ -27,7 +27,7 @@ export default defineComponent({
     },
     menuStart: {
       type: Boolean,
-      default: true
+      default: false
     },
     menuCenter: {
       type: Boolean,
@@ -35,7 +35,7 @@ export default defineComponent({
     },
     menuEnd: {
       type: Boolean,
-      default: true
+      default: false
     }
   },
   setup(props, context) {

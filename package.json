@@ -1,6 +1,6 @@
 {
   "name": "vidie",
-  "version": "0.0.1-development3",
+  "version": "0.0.1-development4",
   "description": "Vidie is an UI library for Vue 3",
   "files": [
     "dist"

@@ -1,6 +1,6 @@
 <template>
   <div class="list listBorder listSharp bdDarker">
-    <template v-for="event in dailyEvents" :key="event">
+    <template v-for="event in events" :key="event">
       <div v-if="event.allday === 1" class="listItem active flex txtBold bgDarkest bdDarker">
         <div class="pw-15">allday</div>
         <div class="pdLeft-2">
@@ -21,7 +21,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, toRef, inject } from 'vue'
+import { defineComponent, toRefs, inject } from 'vue'
 
 export default defineComponent({
   name: 'DailyCalendar',
@@ -39,18 +39,19 @@ export default defineComponent({
     const year = inject<number>('year', new Date().getFullYear())
     const month = inject<number>('month', Number(new Date().getMonth()) + 1)
     const day = inject<number>('day', new Date().getDate())
-    const locale = inject<number>('locale', 'en-US')
-    const dailyEvents = toRef(props, 'events')
+    const locale = inject<string>('locale', 'en-US')
+    const { events } = toRefs<any>(props)
     
     const getShortTime = (dateStr: string) => {
-      return new Date(dateStr).toTimeString().match(/\d{2}:\d{2}/g).toString()
+      const timeArr: string[] = dateStr.split(/\s|,|\:|-|T|Z/g).filter((i: string) => i !== '')
+      return `${timeArr[3]}:${timeArr[4]}`
     }
     
     return {
       year,
       month,
       day,
-      dailyEvents,
+      events,
       getShortTime
     }
   }

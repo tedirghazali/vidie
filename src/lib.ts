@@ -3,7 +3,7 @@ import NavBar from './components/layout/NavBar.vue'
 import SideBar from './components/layout/SideBar.vue'
 import DarkMode from './components/layout/DarkMode.vue'
 import BasicCalendar from './components/calendar/BasicCalendar.vue'
-import BasicCalendarBar from './components/calendar/BasicCalendarBar.vue'
+//import BasicCalendarBar from './components/calendar/BasicCalendarBar.vue'
 import YearlyCalendar from './components/calendar/YearlyCalendar.vue'
 import MonthlyCalendar from './components/calendar/MonthlyCalendar.vue'
 import WeeklyCalendar from './components/calendar/WeeklyCalendar.vue'
@@ -18,7 +18,7 @@ export {
   SideBar,
   DarkMode,
   BasicCalendar,
-  BasicCalendarBar,
+  //BasicCalendarBar,
   YearlyCalendar,
   MonthlyCalendar,
   WeeklyCalendar,

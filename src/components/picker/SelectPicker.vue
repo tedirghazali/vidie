@@ -46,7 +46,7 @@ export default defineComponent({
       }
     }
     
-    const pressOption = (option) => {
+    const pressOption = (option: any) => {
       picker.value = false
       emit('update:modelValue', option)
     }
@@ -55,7 +55,8 @@ export default defineComponent({
       picker,
       modelValue,
       options,
-      pressToggler
+      pressToggler,
+      pressOption
     }
   }
 })

@@ -31,19 +31,19 @@ export default defineComponent({
     },
     sectionTop: {
       type: Boolean,
-      default: true
+      default: false
     },
     sectionLeft: {
       type: Boolean,
-      default: true
+      default: false
     },
     sectionRight: {
       type: Boolean,
-      default: true
+      default: false
     },
     sectionBottom: {
       type: Boolean,
-      default: true
+      default: false
     }
   },
   setup(props, context) {

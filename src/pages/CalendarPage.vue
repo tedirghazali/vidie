@@ -9,7 +9,7 @@
 
 <script lang="ts">
 import { defineComponent, ref, provide, watch } from 'vue'
-import { useCalendar } from '../assets/alga-vue.es.js'
+import { useCalendar } from 'alga-vue' //../assets/alga-vue.es.js
 import useEvents from '../composables/useEvents'
 import EventCalendar from '../components/calendar/EventCalendar.vue'
 import EventCalendarBar from '../components/calendar/EventCalendarBar.vue'

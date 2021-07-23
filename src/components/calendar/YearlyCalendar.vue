@@ -3,14 +3,14 @@
     <div class="gridColumns-4 gridItemsCenter gap-8">
       <div v-for="n in 12" class="bd-1 bdDarker pdX-5 pdTop-3 pdBottom-4 rd-2 wd-100">
         <div class="txtCenter txtBold txt-5">{{ getMonthNames[Number(n) - 1] }}</div>
-        <BasicCalendar v-model="date" :year="setYearRef" :month="n" :dayType="'narrow'" :events="events.filter(i => Number(new Date(i.startdate).getMonth()) + 1 === n)" @action="emitDate" />
+        <BasicCalendar v-model="date" :year="setYearRef" :month="n" :dayType="'narrow'" :events="filteredEvents(events, n)" @action="emitDate()" />
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, toRef, inject, watch } from 'vue'
+import { defineComponent, ref, toRefs, inject, watchEffect } from 'vue'
 import { handleCalendar } from 'alga-vue' //../../assets/alga-vue.es.js
 import BasicCalendar from './BasicCalendar.vue'
 
@@ -44,16 +44,13 @@ export default defineComponent({
   },
   setup(props, context) {
     const date = ref<string>('')
-    const locale = toRef(props, 'locale')
-    const dayType = toRef(props, 'dayType')
-    const monthType = toRef(props, 'monthType')
-    const events = toRef(props, 'events')
+    const { locale, dayType, monthType, events } = toRefs<any>(props)
     
-    const year = inject<number>('year', new Date().getFullYear())
+    const year = inject<any>('year', Number(new Date().getFullYear()))
     
     const { setYearRef, getMonthNames } = handleCalendar(year, null, null, locale, dayType, monthType)
     
-    watch(year, (newVal, oldVal) => {
+    watchEffect(() => {
       setYearRef.value = year.value
     })
     
@@ -61,12 +58,19 @@ export default defineComponent({
       context.emit('update:modelValue', date.value)
     }
     
+    const filteredEvents = (events: any[], monthNum: number) => {
+      return events.filter((i: any) => {
+        return Number(new Date(i.startdate).getMonth()) + 1 === monthNum
+      })
+    }
+    
     return {
       date,
       emitDate,
       setYearRef,
       getMonthNames,
-      events
+      events,
+      filteredEvents
     }
   }
 })

@@ -24,7 +24,8 @@
     <tbody>
       <tr v-if="body">
         <template v-for="entry in entries" :key="entry">
-          <td v-for="val in Object.values(entry)" :key="val">{{ val }}</td>
+          <!--<td v-for="val in Object.values(entry)" :key="val">{{ val }}</td>-->
+          <td></td>
         </template>
       </tr>
       <slot></slot>
@@ -36,7 +37,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, toRefs } from 'vue'
 
 export default defineComponent({
   name: 'Table',
@@ -68,6 +69,12 @@ export default defineComponent({
     footer: {
       type: Boolean,
       default: false
+    }
+  },
+  setup(props) {
+    const { entries } = toRefs<any>(props)
+    return {
+      entries
     }
   }
 })

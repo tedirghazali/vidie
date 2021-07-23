@@ -1,3 +1,0 @@
-// because vite doesn't provide type declaration, you need manually declare it on your project 
-// (usually add vendor.d.ts inside your src folder and add this syntax to that file).
-declare module 'vidie';

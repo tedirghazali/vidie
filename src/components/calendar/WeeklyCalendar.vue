@@ -45,7 +45,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, reactive, watch, toRefs, inject } from 'vue'
+import { defineComponent, ref, reactive, watch, watchEffect, toRefs, inject } from 'vue'
 import { useCalendar } from 'alga-vue' //../../assets/alga-vue.es.js
 
 export default defineComponent({
@@ -75,18 +75,18 @@ export default defineComponent({
       frameWidth: ref<number>(0)
     })
     
-    const { events, dayType } = toRefs(props)
+    const { events, dayType } = toRefs<any>(props)
     
     const year = inject<number>('year', new Date().getFullYear())
     const month = inject<number>('month', Number(new Date().getMonth()) + 1)
     const day = inject<number>('day', new Date().getDate())
-    const locale = inject<number>('locale', 'en-US')
+    const locale = inject<string>('locale', 'en-US')
     
     const { getDayNames, setWeeks, getWeeks, getWeekDays, setEvents, getEventsByTime } = useCalendar(year, month, day, locale, dayType)
     
-    const week = inject<number>('week', getWeeks.value)
+    const week = inject<any>('week', getWeeks.value)
     
-    watch(week, (newVal, oldVal) => {
+    watchEffect(() => {
       setWeeks.value = week.value
       context.emit('update:start', getWeekDays.value[0])
       context.emit('update:end', getWeekDays.value[6])
@@ -126,9 +126,9 @@ export default defineComponent({
     }
     
     watch(events, () => {
-      allDayEvents.value = events.value.filter(n => n.allday === 1)
+      allDayEvents.value = events.value.filter((n: any) => Number(n.allday) === 1)
       allDay.value = allDayEvents.value.length !== 0 ? allDayEvents.value.length : 1
-      setEvents.value = events.value.filter(n => n.allday === 0)
+      setEvents.value = events.value.filter((n: any) => Number(n.allday) === 0)
     })
     
     return {
