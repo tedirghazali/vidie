@@ -1,7 +1,7 @@
 <template>
   <div class="dark">
     <div class="gridColumns-4 gridItemsCenter gap-8">
-      <div v-for="n in 12" class="bd-1 bdDarker pdX-5 pdTop-3 pdBottom-4 rd-2 wd-100">
+      <div v-for="n in 12" class="bd-1 bdDarker pdTop-3 pdBottom-4 rd-2 wd-100">
         <div class="txtCenter txtBold txt-5">{{ getMonthNames[Number(n) - 1] }}</div>
         <BasicCalendar v-model="date" :year="setYearRef" :month="n" :dayType="'narrow'" :events="filteredEvents(events, n)" @action="emitDate()" />
       </div>
@@ -15,7 +15,7 @@ import { handleCalendar } from 'alga-vue' //../../assets/alga-vue.es.js
 import BasicCalendar from './BasicCalendar.vue'
 
 export default defineComponent({
-  name: 'CalendarPage',
+  name: 'YearlyCalendar',
   props: {
     modelValue: {
       type: String,
@@ -46,7 +46,7 @@ export default defineComponent({
     const date = ref<string>('')
     const { locale, dayType, monthType, events } = toRefs<any>(props)
     
-    const year = inject<any>('year', Number(new Date().getFullYear()))
+    const year = inject<any>('year', new Date().getFullYear())
     
     const { setYearRef, getMonthNames } = handleCalendar(year, null, null, locale, dayType, monthType)
     

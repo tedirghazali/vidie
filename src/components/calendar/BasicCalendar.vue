@@ -22,7 +22,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, toRefs, watch, computed } from 'vue'
+import { defineComponent, ref, toRefs, watch, computed, watchEffect } from 'vue'
 import { useCalendar } from 'alga-vue' //../../assets/alga-vue.es.js
 //import { date as dt } from '../../assets/alga.min.js'
 
@@ -58,7 +58,8 @@ export default defineComponent({
   setup(props, context) {
     const resultDate = ref<string>('')
     const { modelValue: current, year: yearRef, month: monthRef, locale, dayType, events } = toRefs(props)
-    const { getDayNames, getPrevDays, getMonthDays, getNextDays, setEvents, getEvents } = useCalendar(yearRef, monthRef, null, locale, dayType)
+    
+    const { setYearRef, setMonthRef, getDayNames, getPrevDays, getMonthDays, getNextDays, setEvents, getEvents } = useCalendar(yearRef, monthRef, null, locale, dayType)
     
     const eventDate = (date: string | number) => {
       resultDate.value = `${yearRef.value}-${monthRef.value}-${date}`
@@ -68,11 +69,16 @@ export default defineComponent({
     
     setEvents.value = events.value
     
-    watch(events, (newVal, oldVal) => {
+    watch(events, () => {
       setEvents.value = events.value
     })
     
-    watch(current, (newVal, oldVal) => {
+    watchEffect(() => {
+      setYearRef.value = yearRef.value
+      setMonthRef.value = monthRef.value
+    })
+    
+    watch(current, () => {
       resultDate.value = props.modelValue
     })
 

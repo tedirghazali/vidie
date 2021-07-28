@@ -23,7 +23,7 @@ import WeeklyCalendar from './WeeklyCalendar.vue'
 import DailyCalendar from './DailyCalendar.vue'
 
 export default defineComponent({
-  name: 'CalendarPage',
+  name: 'EventCalendar',
   props: {
     toggle: {
       type: String,
