@@ -1,12 +1,42 @@
+<script lang="ts" setup>
+import { toRefs } from 'vue'
+
+interface Props {
+  caption?: string,
+  col?: boolean,
+  header?: boolean,
+  columns?: any[],
+  body?: boolean,
+  entries?: any[],
+  footer?: boolean
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  caption: '',
+  col: false,
+  header: true,
+  columns: [],
+  body: true,
+  entries: [],
+  footer: false
+})
+
+const { entries } = toRefs<any>(props)
+
+defineExpose({
+  entries
+})
+</script>
+
 <template>
   <table class="table">
-    <caption v-if="caption === 'top' || caption === 'bottom'" :class="{'captionTop': caption === 'top'}">
+    <caption class="tableCaption" v-if="caption === 'top' || caption === 'bottom'" :class="{'captionTop': caption === 'top'}">
       <slot name="tableCaption"></slot>
     </caption>
     <colgroup v-if="col">
       <slot name="tableCol"></slot>
     </colgroup>
-    <thead>
+    <thead class="tableHead">
       <tr v-if="header">
         <th v-for="column in columns" scope="col">
           <div class="flexBetween itemsCenter">
@@ -21,7 +51,7 @@
       </tr>
       <slot name="tableHead"></slot>
     </thead>
-    <tbody>
+    <tbody class="tableBody">
       <tr v-if="body">
         <template v-for="entry in entries" :key="entry">
           <!--<td v-for="val in Object.values(entry)" :key="val">{{ val }}</td>-->
@@ -30,52 +60,8 @@
       </tr>
       <slot></slot>
     </tbody>
-    <tfoot v-if="footer">
+    <tfoot class="tableFoot" v-if="footer">
       <slot name="tableFoot"></slot>
     </tfoot>
   </table>
 </template>
-
-<script lang="ts">
-import { defineComponent, toRefs } from 'vue'
-
-export default defineComponent({
-  name: 'Table',
-  props: {
-    caption: {
-      type: String,
-      default: ''
-    },
-    col: {
-      type: Boolean,
-      default: false
-    },
-    header: {
-      type: Boolean,
-      default: true
-    },
-    columns: {
-      type: Array,
-      default: []
-    },
-    body: {
-      type: Boolean,
-      default: true
-    },
-    entries: {
-      type: Array,
-      default: []
-    },
-    footer: {
-      type: Boolean,
-      default: false
-    }
-  },
-  setup(props) {
-    const { entries } = toRefs<any>(props)
-    return {
-      entries
-    }
-  }
-})
-</script>

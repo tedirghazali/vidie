@@ -38,10 +38,11 @@
   },
   "homepage": "https://github.com/tedirghazali/vidie#readme",
   "dependencies": {
-    "alga-css": "*",
-    "alga-js": "^0.0.1-beta5",
-    "alga-vue": "^0.0.1-development2",
-    "vue": "^3.0.5"
+    "alga-css": "^1.0.0-development5",
+    "alga-js": "^0.0.3",
+    "alga-vue": "^0.0.1-development4",
+    "vue": "^3.0.5",
+    "vue-router": "^4.0.11"
   },
   "devDependencies": {
     "@types/jest": "^26.0.23",

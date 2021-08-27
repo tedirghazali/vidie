@@ -1,5 +1,5 @@
 <template>
-  <Page sections="top" :section-left="false" :section-right="false" :section-bottom="false">
+  <Page sections="top-left" :section-left="true" :section-top="true">
     <template v-slot:sectionTop>
       <NavBar :menuStart="true" :menuEnd="true" class="bd-0 bdBottom-1 bdSolid bdOpacity-2 bdBlack sd-1">
         <template v-slot:menuStart>
@@ -25,26 +25,26 @@
     <template v-slot:sectionLeft>
       <SideBar :menu-start="false" :menu-end="false" class="sd-2">
         <template v-slot:default>
-          <h4 class="pdX-4 txtGray mgBottom-1">Menus</h4>
+          <h4 class="pdX-4 txtGray mgBottom-1">All Menus</h4>
           <ul class="menu">
             <li class="menuItem">
-              <a href="#" class="menuLink primary.hover left:line-2">Dashboard</a>
-            </li>
-            <li class="menuItem">
-              <a href="#" class="menuLink primary.hover">Contents</a>
-            </li>
-            <li class="menuItem">
-              <a href="#" class="menuLink primary.hover">Taxonomies</a>
-            </li>
-            <li class="menuItem">
-              <a href="#" class="menuLink primary.hover">Pages</a>
-            </li>
-            <li class="menuItem">
-              <a href="#" class="menuLink primary.hover">Files</a>
+              <router-link to="/" class="menuLink primary.hover left:line-2">Dashboard</router-link>
             </li>
           </ul>
-          <h4 class="pdX-4 txtGray mgBottom-1">Themes</h4>
+          <h4 class="pdX-4 txtGray mgBottom-1">Advanced Components</h4>
           <ul class="menu">
+            <li class="menuItem">
+              <router-link to="/calendar" class="menuLink primary.hover">Event Calender</router-link>
+            </li>
+            <li class="menuItem">
+              <router-link to="/table" class="menuLink primary.hover">Data Table</router-link>
+            </li>
+            <li class="menuItem">
+              <router-link to="/invoice" class="menuLink primary.hover">Invoice Table</router-link>
+            </li>
+          </ul>
+          <h4 class="pdX-4 txtGray mgBottom-1">Element Components</h4>
+          <!--<ul class="menu">
             <li class="menuItem">
               <a href="#" class="menuLink primary.hover">Templates</a>
             </li>
@@ -57,9 +57,9 @@
             <li class="menuItem">
               <a href="#" class="menuLink primary.hover">Custom Themes</a>
             </li>
-          </ul>
-          <h4 class="pdX-4 txtGray mgBottom-1">Configures</h4>
-          <ul class="menu">
+          </ul>-->
+          <h4 class="pdX-4 txtGray mgBottom-1">Other Components</h4>
+          <!--<ul class="menu">
             <li class="menuItem">
               <a href="#" class="menuLink primary.hover">Settings</a>
             </li>
@@ -72,12 +72,13 @@
             <li class="menuItem">
               <a href="#" class="menuLink primary.hover">Others</a>
             </li>
-          </ul>
+          </ul>-->
         </template>
       </SideBar>
     </template>
     <template v-slot:default>
-      <CalendarPage />
+      <!--<CalendarPage />-->
+      <router-view></router-view>
     </template>
   </Page>
 </template>
