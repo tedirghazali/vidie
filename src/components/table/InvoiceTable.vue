@@ -16,16 +16,14 @@ interface Props {
 
 const props = withDefaults(defineProps<Props>(), {
   columns: [
-    {name: 'id', text: 'SN.', bg: 'rgba(0, 0, 0, 0.0125)', fg: 'currentColor', width: '30px', align: 'left'},
+    {name: 'id', text: 'SN.', bg: 'rgba(0, 0, 0, 0.0125)', fg: 'currentColor', width: '50px', align: 'center'},
     {name: 'description', text: 'Item Description', bg: 'rgba(0, 0, 0, 0.009)', fg: 'currentColor', width: 'auto', align: 'left'},
-    {name: 'quantity', text: 'Quantity', bg: 'rgba(0, 0, 0, 0.0125)', fg: 'currentColor', width: '150px', align: 'right'},
+    {name: 'quantity', text: 'Quantity', bg: 'rgba(0, 0, 0, 0.0125)', fg: 'currentColor', width: '100px', align: 'right'},
     {name: 'price', text: 'Price', bg: 'rgba(0, 0, 0, 0.009)', fg: 'currentColor', width: '150px', align: 'right', format: 'currency'},
     {name: 'amount', text: 'Amount', bg: 'rgba(0, 0, 0, 0.0125)', fg: 'currentColor', width: '150px', align: 'right', format: 'currency'},
   ],
   entries: [],
-  rates: [
-    {name: 'tax', text: 'Sales Tax', amount: 10, type: 'percent', calc: 'addition'}
-  ],
+  rates: [],
   quantity: 'quantity',
   price: 'price',
   amount: 'amount',
@@ -61,10 +59,7 @@ defineExpose({
     <tbody class="tableBody" role="rowgroup">
       <tr v-for="(entry, index) in getEntries" :key="index" class="tableRow" role="row">
         <td v-for="(col, ind) in columns" :key="ind" class="tableCell" role="cell" :style="{'text-align': col.align, 'background-color': col.bg, 'color': col.fg}">{{ (col.format === 'currency') ? num.currency(entry[col.name], currency, locale) : entry[col.name] }}</td>
-        <!--<th class="tableScope" role="rowheader">{{ entry.description }}</th>
-        <td class="tableCell" role="cell">{{ entry.quantity }}</td>
-        <td class="tableCell" role="cell">{{ entry.price }}</td>
-        <td class="tableCell" role="cell">{{ entry.amount }}</td>-->
+        <!--<th class="tableScope" role="rowheader"></th>-->
       </tr>
     </tbody>
     <tfoot class="tableFoot" role="rowgroup">

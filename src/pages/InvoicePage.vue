@@ -9,14 +9,19 @@ const entries = reactive<Array<{id: number, description: string, quantity: numbe
   { id: 4, description: 'Barang-4', quantity: 2, price: 1000, amount: 0 }
 ])
 
+const rates = reactive([
+  {name: 'tax', text: 'Sales Tax', amount: 10, type: 'percent', calc: 'addition'}
+])
+
 defineExpose({
-  entries
+  entries,
+  rates
 })
 </script>
 
 <template>
   <div style="margin: 20px">
-    <InvoiceTable :entries="entries" />
+    <InvoiceTable :entries="entries" :rates="rates" currency="IDR" locale="id-ID" />
   </div>
 </template>
 
