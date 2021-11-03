@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { ref, reactive, toRef, watch } from 'vue'
 import Table from '../components/table/Table.vue'
+import DataTable from '../components/table/DataTable.vue'
 import rawEntries from '../assets/raw-entries.js'
 
 const columns = reactive<any[]>([
@@ -51,6 +52,8 @@ defineExpose({
 </script>
 
 <template>
+  <h1>Data Table</h1>
+  <DataTable caption="top" caption-text="This is caption text" :columns="columns" :entries="entries" :footer="true" :footer-rows="footerRows" v-model:sort="sort" />
   <h1>Table Element</h1>
   <Table caption="top" caption-text="This is caption text" :columns="columns" :entries="entries" :footer="true" :footer-rows="footerRows" v-model:sort="sort" />
 </template>

@@ -5,6 +5,7 @@ import HomePage from './pages/HomePage.vue'
 import CalendarPage from './pages/CalendarPage.vue'
 import TablePage from './pages/TablePage.vue'
 import InvoicePage from './pages/InvoicePage.vue'
+import GridPage from './pages/GridPage.vue'
 import './assets/alga-v1.min.css'
 
 const router = createRouter({
@@ -13,7 +14,8 @@ const router = createRouter({
     { path: '/', component: HomePage },
     { path: '/calendar', component: CalendarPage },
     { path: '/table', component: TablePage },
-    { path: '/invoice', component: InvoicePage }
+    { path: '/invoice', component: InvoicePage },
+    { path: '/grid', component: GridPage }
   ]
 })
 

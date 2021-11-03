@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ref, toRefs } from 'vue'
+import { ref, toRef } from 'vue'
 
 interface Props {
   caption?: string,
@@ -9,7 +9,9 @@ interface Props {
   entries?: any[],
   footer?: boolean,
   footerRows?: any[],
-  sort?: any
+  sort?: any,
+  filter?: any,
+  checkList?: any[]
 }
 
 withDefaults(defineProps<Props>(), {
@@ -20,12 +22,22 @@ withDefaults(defineProps<Props>(), {
   entries: [],
   footer: false,
   footerRows: [],
-  sort: {}
+  sort: {},
+  filter: {},
+  checkList: []
 })
 
 const emit = defineEmits<{
-  (e: 'update:sort', value: any): void
+  (e: 'update:sort', value: any): void,
+  (e: 'update:filter', value: any): void,
+  (e: 'update:checkList', value: any): void
 }>()
+
+const checkedEntries = ref<any[]>([])
+
+defineExpose({
+  checkedEntries
+})
 </script>
 
 <template>
@@ -36,35 +48,40 @@ const emit = defineEmits<{
     <thead class="tableHead">
       <tr v-for="(column, index) in columns" :key="index" class="tableRow">
         <th v-for="(col, ind) in column" :key="ind" scope="col" :colspan="col.colspan" :rowspan="col.rowspan" :style="{'text-align': col.align, 'vertical-align': col.valign, width: col.width, 'background-color': col.bg, color: col.fg}">
-          <div v-if="!col.filter" style="display: flex; justify-content: space-between; items-content: center;">
-            <div>{{ col.text }}</div>
-            <div v-if="col.sortable">
-              <template v-if="sort.column === col.name && sort.by === 'asc'">
-                <div @click="emit('update:sort', {column: col.name, by: 'desc'})">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-sort-up" viewBox="0 0 16 16" style="pointer-events: none;">
-                    <path d="M3.5 12.5a.5.5 0 0 1-1 0V3.707L1.354 4.854a.5.5 0 1 1-.708-.708l2-1.999.007-.007a.498.498 0 0 1 .7.006l2 2a.5.5 0 1 1-.707.708L3.5 3.707V12.5zm3.5-9a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zM7.5 6a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1h-5zm0 3a.5.5 0 0 0 0 1h3a.5.5 0 0 0 0-1h-3zm0 3a.5.5 0 0 0 0 1h1a.5.5 0 0 0 0-1h-1z"/>
-                  </svg>
-                </div>
-              </template>
-              <template v-else-if="sort.column === col.name && sort.by === 'desc'">
-                <div @click="emit('update:sort', {column: col.name, by: ''})">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-sort-down-alt" viewBox="0 0 16 16" style="pointer-events: none;">
-                    <path d="M3.5 3.5a.5.5 0 0 0-1 0v8.793l-1.146-1.147a.5.5 0 0 0-.708.708l2 1.999.007.007a.497.497 0 0 0 .7-.006l2-2a.5.5 0 0 0-.707-.708L3.5 12.293V3.5zm4 .5a.5.5 0 0 1 0-1h1a.5.5 0 0 1 0 1h-1zm0 3a.5.5 0 0 1 0-1h3a.5.5 0 0 1 0 1h-3zm0 3a.5.5 0 0 1 0-1h5a.5.5 0 0 1 0 1h-5zM7 12.5a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 0-1h-7a.5.5 0 0 0-.5.5z"/>
-                  </svg>
-                </div>
-              </template>
-              <template v-else>
-                <span @click="emit('update:sort', {column: col.name, by: 'asc'})">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-sort" viewBox="0 0 16 16" style="pointer-events: none;">
-                    <path d="M3.5 12.5a.5.5 0 0 1-1 0V3.707L1.354 4.854a.5.5 0 1 1-.708-.708l2-1.999.007-.007a.498.498 0 0 1 .7.006l2 2a.5.5 0 1 1-.707.708L3.5 3.707V12.5z"></path>
-                    <path d="M9.5 2.5a.5.5 0 0 0-1 0v8.793l-1.146-1.147a.5.5 0 0 0-.708.708l2 1.999.007.007a.497.497 0 0 0 .7-.006l2-2a.5.5 0 0 0-.707-.708L9.5 11.293V2.5z"></path>
-                  </svg>
-                </span>
-              </template>
+          <div v-if="!col.checkbox">
+            <div v-if="!col.filter" style="display: flex; justify-content: space-between; items-content: center;">
+              <div>{{ col.text }}</div>
+              <div v-if="col.sortable">
+                <template v-if="sort.column === col.name && sort.by === 'asc'">
+                  <div @click="emit('update:sort', {column: col.name, by: 'desc'})">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-sort-up" viewBox="0 0 16 16" style="pointer-events: none;">
+                      <path d="M3.5 12.5a.5.5 0 0 1-1 0V3.707L1.354 4.854a.5.5 0 1 1-.708-.708l2-1.999.007-.007a.498.498 0 0 1 .7.006l2 2a.5.5 0 1 1-.707.708L3.5 3.707V12.5zm3.5-9a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zM7.5 6a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1h-5zm0 3a.5.5 0 0 0 0 1h3a.5.5 0 0 0 0-1h-3zm0 3a.5.5 0 0 0 0 1h1a.5.5 0 0 0 0-1h-1z"/>
+                    </svg>
+                  </div>
+                </template>
+                <template v-else-if="sort.column === col.name && sort.by === 'desc'">
+                  <div @click="emit('update:sort', {column: col.name, by: ''})">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-sort-down-alt" viewBox="0 0 16 16" style="pointer-events: none;">
+                      <path d="M3.5 3.5a.5.5 0 0 0-1 0v8.793l-1.146-1.147a.5.5 0 0 0-.708.708l2 1.999.007.007a.497.497 0 0 0 .7-.006l2-2a.5.5 0 0 0-.707-.708L3.5 12.293V3.5zm4 .5a.5.5 0 0 1 0-1h1a.5.5 0 0 1 0 1h-1zm0 3a.5.5 0 0 1 0-1h3a.5.5 0 0 1 0 1h-3zm0 3a.5.5 0 0 1 0-1h5a.5.5 0 0 1 0 1h-5zM7 12.5a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 0-1h-7a.5.5 0 0 0-.5.5z"/>
+                    </svg>
+                  </div>
+                </template>
+                <template v-else>
+                  <span @click="emit('update:sort', {column: col.name, by: 'asc'})">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-sort" viewBox="0 0 16 16" style="pointer-events: none;">
+                      <path d="M3.5 12.5a.5.5 0 0 1-1 0V3.707L1.354 4.854a.5.5 0 1 1-.708-.708l2-1.999.007-.007a.498.498 0 0 1 .7.006l2 2a.5.5 0 1 1-.707.708L3.5 3.707V12.5z"></path>
+                      <path d="M9.5 2.5a.5.5 0 0 0-1 0v8.793l-1.146-1.147a.5.5 0 0 0-.708.708l2 1.999.007.007a.497.497 0 0 0 .7-.006l2-2a.5.5 0 0 0-.707-.708L9.5 11.293V2.5z"></path>
+                    </svg>
+                  </span>
+                </template>
+              </div>
+            </div>
+            <div v-else>
+              <input type="search" class="input" v-model="filter[col.name]" @input="emit('update:filter', filter)" />
             </div>
           </div>
           <div v-else>
-            <input type="search" class="input" />
+            <input type="checkbox" class="check" @click="emit('update:checkList', checkedEntries)" />
           </div>
         </th>
       </tr>
@@ -75,7 +92,7 @@ const emit = defineEmits<{
           <template v-if="!column.component && !column.checkbox">{{ entry[column.name] }}</template>
           <template v-else>
             <template v-if="column.checkbox">
-              <input type="checkbox" class="check" />
+              <input type="checkbox" class="check" @click="emit('update:checkList', checkedEntries)" />
             </template>
             <template v-else>
               <component :is="column.component" :entry="entry"></component>
