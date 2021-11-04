@@ -3,7 +3,7 @@
 </script>
 
 <template>
-  <div class="monthGrid">
+  <div class="monthGrid" style="height: 800px;">
     <div v-for="num in 42" class="monthItem">
       <div class="monthHeader">{{ num }}</div>
       <div class="monthBody"></div>
