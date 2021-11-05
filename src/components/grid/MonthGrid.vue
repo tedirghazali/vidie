@@ -1,11 +1,49 @@
 <script lang="ts" setup>
+import { computed } from 'vue'
+import { date as dt } from 'alga-js'
 
+interface Props {
+  date?: string
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  date: new Date().toJSON().slice(0, 10)
+})
+
+const splitDate = (dateArg: string) => {
+  return dateArg.split('-')
+}
+
+const prevDaysInMonth = computed<any[]>(() => {
+  const newDate = splitDate(props.date)
+  return dt.prevDaysInCalendar(newDate[0], newDate[1])
+})
+
+const daysInMonth = computed<number>(() => {
+  const newDate = splitDate(props.date)
+  return dt.daysInMonth(newDate[0], newDate[1])
+})
+
+const nextDaysInMonth = computed<any[]>(() => {
+  const newDate = splitDate(props.date)
+  return dt.nextDaysInCalendar(newDate[0], newDate[1])
+})
 </script>
 
 <template>
   <div class="monthGrid" style="height: 800px;">
-    <div v-for="num in 42" class="monthItem">
-      <div class="monthHeader">{{ num }}</div>
+    <div v-for="prevNum in prevDaysInMonth" :key="prevNum" class="monthItem">
+      <div class="monthHeader">{{ prevNum }}</div>
+      <div class="monthBody"></div>
+      <div class="monthFooter"></div>
+    </div>
+    <div v-for="dayNum in daysInMonth" :key="dayNum" class="monthItem">
+      <div class="monthHeader">{{ dayNum }}</div>
+      <div class="monthBody"></div>
+      <div class="monthFooter"></div>
+    </div>
+    <div v-for="nextNum in nextDaysInMonth" :key="nextNum" class="monthItem">
+      <div class="monthHeader">{{ nextNum }}</div>
       <div class="monthBody"></div>
       <div class="monthFooter"></div>
     </div>

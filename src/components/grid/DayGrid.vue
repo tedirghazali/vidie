@@ -1,10 +1,10 @@
 <script lang="ts" setup>
-const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+import { date as dt } from 'alga-js'
 </script>
 
 <template>
   <div class="dayGrid">
-    <div v-for="day in days" class="dayItem">
+    <div v-for="day in dt.days()" class="dayItem">
       {{ day }}
     </div>
   </div>
