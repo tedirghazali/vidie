@@ -1,20 +1,20 @@
 <script lang="ts" setup>
+import Day from '../components/grid/Day.vue'
 import DayGrid from '../components/grid/DayGrid.vue'
-import MonthGrid from '../components/grid/MonthGrid.vue'
-import WeekGrid from '../components/grid/WeekGrid.vue'
+import Week from '../components/grid/Week.vue'
 </script>
 
 <template>
   <div class="container" style="padding: 20px;">
     <div class="calendar">
       <div class="calendarDay">
-        <DayGrid />
+        <Day />
       </div>
       <div class="calendarMonth">
-        <MonthGrid />
+        <DayGrid />
       </div>
       <div class="calendarWeek">
-        <WeekGrid />
+        <Week />
       </div>
     </div>
   </div>
